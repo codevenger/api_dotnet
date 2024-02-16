@@ -10,5 +10,6 @@ namespace backend.Model.Context
         }
         public SQLContext(DbContextOptions<SQLContext> options) : base(options) {}
 
+        public DbSet<User> Users { get; set; }
     }
 }

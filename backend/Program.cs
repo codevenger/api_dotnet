@@ -1,4 +1,12 @@
+using backend.Model;
+using backend.Model.Context;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Database connect
+var connection = builder.Configuration["SQLConnection:SQLConnection"];
+builder.Services.AddDbContext<SQLContext>(options => options.UseSqlServer(connection));
 
 // Add services to the container.
 

@@ -3,7 +3,6 @@
     "mssql1": {
       "serviceConnectorResourceId": "",
       "secretStore": "LocalSecretsFile",
-      "resourceId": null,
       "type": "mssql.onprem",
       "connectionId": "SQLConnection"
     }

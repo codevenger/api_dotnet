@@ -6,7 +6,6 @@ namespace backend.Model.Context
     {
         public SQLContext()
         {
-        
         }
         public SQLContext(DbContextOptions<SQLContext> options) : base(options) {}
 

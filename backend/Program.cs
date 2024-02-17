@@ -1,9 +1,15 @@
 using Asp.Versioning;
+using backend.Business.Implementations;
+using backend.Business;
 using backend.Model;
 using backend.Model.Context;
+using backend.Repository.Generic;
+using backend.Repository;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 var appName = "API Dotnet";
@@ -48,6 +54,10 @@ builder.Services.AddSwaggerGen(c =>
         });
 });
 
+//Dependency Injection
+builder.Services.AddScoped<ILoginBusiness, LoginBusinessImplementation>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 
 var app = builder.Build();
 
@@ -63,11 +73,17 @@ if (app.Environment.IsDevelopment())
 
             if (sqlContext.Users.FirstOrDefault() == null)
             {
+                string user = "admin";
+                string pass = "senha123";
+                IdentityUser identityUser = new IdentityUser() { UserName = user };
+                PasswordHasher<IdentityUser> hasher = new PasswordHasher<IdentityUser>();
+                string hashPassword = hasher.HashPassword(identityUser, pass);
+
                 sqlContext.Add(new User
                 {
-                    Username = "admin",
+                    Username = user,
                     Fullname = "Administrador",
-                    Password = "senha123"
+                    Password = hashPassword
                 });
                 sqlContext.SaveChanges();
             }

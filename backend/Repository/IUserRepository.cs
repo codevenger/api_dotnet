@@ -5,5 +5,6 @@ namespace backend.Repository
 {
     public interface IUserRepository
     {
+        User ValidateCredentials(UserVO user);
     }
 }
